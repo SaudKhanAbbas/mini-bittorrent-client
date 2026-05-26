@@ -11,20 +11,20 @@ server_socket.listen()
 
 print(f"Server listening on {HOST}:{PORT}")
 
-client_socket, client_address = server_socket.accept()
-
-print(f"Connection established with {client_address}")
-
 while True:
-    message = client_socket.recv(1024)
+    client_socket, client_address = server_socket.accept()
 
-    if not message:
-        print("Client disconnected.")
-        break
+    print(f"\nConnection established with {client_address}")
 
-    decoded_message = message.decode()
+    while True:
+        message = client_socket.recv(1024)
 
-    print(f"Client says: {decoded_message}")
+        if not message:
+            print("Client disconnected.")
+            break
 
-client_socket.close()
-server_socket.close()
+        decoded_message = message.decode()
+
+        print(f"Client says: {decoded_message}")
+
+    client_socket.close()
