@@ -19,6 +19,10 @@ def handle_client(client_socket, client_address):
 
         print(f"{client_address}: {decoded_message}")
 
+        response = f"Echo -> {decoded_message}"
+
+        client_socket.send(response.encode())
+
     client_socket.close()
 
 

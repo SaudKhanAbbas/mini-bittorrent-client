@@ -1,7 +1,23 @@
 import socket
+import threading
 
 HOST = "127.0.0.1"
 PORT = 5555
+
+
+def receive_messages(client_socket):
+    while True:
+        try:
+            message = client_socket.recv(1024)
+
+            if not message:
+                break
+
+            print(f"\nServer: {message.decode()}")
+
+        except:
+            break
+
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -9,11 +25,17 @@ client_socket.connect((HOST, PORT))
 
 print(f"Connected to server at {HOST}:{PORT}")
 
+receive_thread = threading.Thread(
+    target=receive_messages,
+    args=(client_socket,)
+)
+
+receive_thread.start()
+
 while True:
     message = input("You: ")
 
     if message.lower() == "exit":
-        print("Disconnecting from server...")
         break
 
     client_socket.send(message.encode())
