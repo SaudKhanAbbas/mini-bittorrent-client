@@ -13,7 +13,7 @@ def receive_messages(client_socket):
             if not message:
                 break
 
-            print(f"\nServer: {message.decode()}")
+            print(f"\n{message.decode()}")
 
         except:
             break
