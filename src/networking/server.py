@@ -5,10 +5,14 @@ HOST = "127.0.0.1"
 PORT = 5555
 
 connected_clients = []
+client_lock = threading.Lock()
 
 
 def broadcast(message, sender_socket):
-    for client in connected_clients:
+    with client_lock:
+        clients_snapshot = connected_clients.copy()
+
+    for client in clients_snapshot:
         if client != sender_socket:
             try:
                 client.send(message.encode())
@@ -40,8 +44,9 @@ def handle_client(client_socket, client_address):
 
     print(f"Client {client_address} disconnected.")
 
-    if client_socket in connected_clients:
-        connected_clients.remove(client_socket)
+    with client_lock:
+        if client_socket in connected_clients:
+            connected_clients.remove(client_socket)
 
     client_socket.close()
 
@@ -57,7 +62,8 @@ print(f"Server listening on {HOST}:{PORT}")
 while True:
     client_socket, client_address = server_socket.accept()
 
-    connected_clients.append(client_socket)
+    with client_lock:
+        connected_clients.append(client_socket)
 
     client_thread = threading.Thread(
         target=handle_client,
