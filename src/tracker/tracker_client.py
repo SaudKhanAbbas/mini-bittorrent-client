@@ -49,17 +49,19 @@ def main():
         f"&compact=1"
     )
 
-    print("\nConnecting to tracker...\n")
-
     response = urllib.request.urlopen(tracker_url)
 
     tracker_response = response.read()
 
-    print("Response received!")
+    response_text = tracker_response.decode("latin-1")
 
-    print("\nResponse Size:")
+    tracker_decoder = BencodeDecoder(response_text)
 
-    print(len(tracker_response))
+    tracker_data = tracker_decoder.decode()
+
+    print("\n===== TRACKER RESPONSE =====\n")
+
+    print(tracker_data)
 
 
 if __name__ == "__main__":
