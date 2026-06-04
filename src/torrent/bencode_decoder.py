@@ -73,6 +73,3 @@ class BencodeDecoder:
         return result
 
 
-decoder = BencodeDecoder("d4:name5:Saude")
-
-print(decoder.decode())
