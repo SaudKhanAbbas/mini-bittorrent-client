@@ -79,7 +79,7 @@ One of the most interesting bugs I encountered was generating an incorrect info 
 Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/SaudKhanAbbas/bittorrent-protocol-explorer
 ```
 
 Go into the project:
@@ -165,8 +165,6 @@ It does not currently support:
 * Seeding
 * Magnet links
 * DHT
-
-These would be natural next steps when the project is expanded in the future.
 
 ---
 
